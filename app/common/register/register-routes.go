@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin"
 	config "github.com/vikashkumar2020/go-url-shortner/config"
+    routes "github.com/vikashkumar2020/go-url-shortner/app/routes"
 )
 
 // health ckeck api
@@ -39,5 +40,5 @@ func Routes(router *gin.Engine, serverConfig *config.ServerConfig) {
 
 // rest api routes 
 func RegiterWebRoutes(router *gin.RouterGroup) {
-	
+    routes.RegisterShortUrlRoutes(router)
 }

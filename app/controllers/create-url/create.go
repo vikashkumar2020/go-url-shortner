@@ -1,14 +1,18 @@
-package controllers
+package create
 
 import (
 	"net/http"
+	"net/url"
 
 	"github.com/gin-gonic/gin"
 	utils "github.com/vikashkumar2020/go-url-shortner/utils"
+	pgdatabase "github.com/vikashkumar2020/go-url-shortner/infra/postgres/database"
+	model "github.com/vikashkumar2020/go-url-shortner/app/models"
 )
 
-func create(c *gin.Context) {
-	var url URL
+
+func Create(c *gin.Context) {
+	var url model.URL
 	if err := c.ShouldBindJSON(&url); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Bad request"})
 		return
@@ -21,19 +25,17 @@ func create(c *gin.Context) {
 	}
 
 	// Insert the long URL into the database and get the generated ID
-	var id int
-	err := db.QueryRow("INSERT INTO urls(long_url) VALUES($1) RETURNING id", url.LongURL).Scan(&id)
-	if err != nil {
+	db := pgdatabase.GetDBInstance().GetDB()
+	if err := db.Create(&url).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 		return
 	}
 
 	// Convert the ID to a short URL
-	url.ShortURL = utils.Base62Encode(id)
+	url.ShortURL = utils.Base62Encode(int(url.ID))
 
 	// Update the record with the short URL
-	_, err = db.Exec("UPDATE urls SET short_url = $1 WHERE id = $2", url.ShortURL, id)
-	if err != nil {
+	if err := db.Save(&url).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
 		return
 	}
