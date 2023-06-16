@@ -7,7 +7,7 @@ import (
 
 const base62Chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-func base62Encode(num int) string {
+func Base62Encode(num int) string {
 	encoded := ""
 	for num > 0 {
 		remainder := num % 62
@@ -16,7 +16,7 @@ func base62Encode(num int) string {
 	}
 	return encoded
 }
-func base62Decode(str string) int {
+func Base62Decode(str string) int {
 	decoded := 0
 	for i := 0; i < len(str); i++ {
 		pos := strings.Index(base62Chars, string(str[i]))
