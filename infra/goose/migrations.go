@@ -6,7 +6,7 @@ import (
 	"os"
 	config "github.com/vikashkumar2020/go-url-shortner/config"
 	db "github.com/vikashkumar2020/go-url-shortner/infra/postgres"
-	// _ "github.com/vikashkumar2020/go-url-shortner/infra/postgres/migrations"
+	_ "github.com/vikashkumar2020/go-url-shortner/infra/postgres/migrations"
 
 	_ "github.com/jackc/pgx/v5"
 	goose "github.com/pressly/goose/v3"
@@ -45,7 +45,7 @@ func main() {
 		arguments = append(arguments, args[1:]...)
 	}
 
-	if err := goose.Run(command, db, "./src/infra/postgres/migrations", arguments...); err != nil {
+	if err := goose.Run(command, db, "./infra/postgres/migrations", arguments...); err != nil {
 		log.Fatalf("goose %v: %v", command, err)
 	}
 }
