@@ -1,13 +1,15 @@
 package create
 
 import (
+	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 
 	"github.com/gin-gonic/gin"
-	utils "github.com/vikashkumar2020/go-url-shortner/utils"
-	pgdatabase "github.com/vikashkumar2020/go-url-shortner/infra/postgres/database"
 	model "github.com/vikashkumar2020/go-url-shortner/app/models"
+	pgdatabase "github.com/vikashkumar2020/go-url-shortner/infra/postgres/database"
+	utils "github.com/vikashkumar2020/go-url-shortner/utils"
 )
 
 
@@ -32,7 +34,7 @@ func Create(c *gin.Context) {
 	}
 
 	// Convert the ID to a short URL
-	url.ShortURL = utils.Base62Encode(int(url.ID))
+	url.ShortURL = fmt.Sprintf("http://%s:%s/api/v1/%s",os.Getenv("DB_HOST"),os.Getenv("APP_PORT"),utils.Base62Encode(int(url.ID)))
 
 	// Update the record with the short URL
 	if err := db.Save(&url).Error; err != nil {

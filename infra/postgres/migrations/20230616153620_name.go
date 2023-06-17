@@ -23,6 +23,7 @@ func init() {
 func upName(tx *sql.Tx) error {
 	// This code is executed when the migration is applied.
 	return db.Migrator().CreateTable(&model.URL{})
+	// return nil
 }
 
 func downName(tx *sql.Tx) error {
