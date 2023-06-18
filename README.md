@@ -13,3 +13,7 @@ Clone the repository to your local machine:
 ```
 sh git clone https://github.com/your-username/go-url-shortener.git
 ```
+
+### env setup
+
+create a file .env and copy the the content of .env.example
