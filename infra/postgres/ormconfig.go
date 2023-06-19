@@ -13,5 +13,6 @@ func GetOrmConfig(dbConfig *config.DBConfig) string {
 		dbConfig.Password, dbConfig.Dbname,
 		dbConfig.Port,
 	)
+	fmt.Println(configString)
 	return configString
 }

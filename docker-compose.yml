@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'
+
 services:
   postgres:
     image: postgres:13
@@ -10,3 +11,22 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: short_url
+    networks:
+      - default
+    volumes:
+      - database_postgres:/var/lib/postgresql/data
+
+
+  short-url:
+    build: .
+    container_name: "url-short-api"
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - default
+  
+volumes:
+  database_postgres:
