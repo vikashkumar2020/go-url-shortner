@@ -42,7 +42,7 @@ func Create(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, url)
+	c.JSON(http.StatusCreated, url)
 }
 
 // Check if the URL is valid
